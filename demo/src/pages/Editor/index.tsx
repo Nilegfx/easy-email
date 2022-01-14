@@ -5,7 +5,6 @@ import template from '@demo/store/template';
 import { useAppSelector } from '@demo/hooks/useAppSelector';
 import { useLoading } from '@demo/hooks/useLoading';
 import { Button, Message, PageHeader, Select } from '@arco-design/web-react';
-import { useQuery } from '@demo/hooks/useQuery';
 import { useHistory } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
 import { Loading } from '@demo/components/loading';
@@ -78,7 +77,6 @@ export default function Editor() {
   const { addCollection, removeCollection, collectionCategory } =
     useCollection();
   const { openModal, modal } = useEmailModal();
-  const { id, userId } = useQuery();
   const loading = useLoading(template.loadings.fetchById);
 
   const isSubmitting = useLoading([
@@ -96,24 +94,12 @@ export default function Editor() {
   }, [collectionCategory]);
 
   useEffect(() => {
-    if (id) {
-      if (!userId) {
-        UserStorage.getAccount().then((account) => {
-          dispatch(
-            template.actions.fetchById({ id: +id, userId: account.user_id })
-          );
-        });
-      } else {
-        dispatch(template.actions.fetchById({ id: +id, userId: +userId }));
-      }
-    } else {
-      dispatch(template.actions.fetchDefaultTemplate(undefined));
-    }
+    dispatch(template.actions.fetchDefaultTemplate(undefined));
 
     return () => {
       dispatch(template.actions.set(null));
     };
-  }, [dispatch, id, userId]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -141,32 +127,9 @@ export default function Editor() {
       values: IEmailTemplate,
       form: FormApi<IEmailTemplate, Partial<IEmailTemplate>>
     ) => {
-      pushEvent({ name: 'Save' });
-      if (id) {
-        dispatch(
-          template.actions.updateById({
-            id: +id,
-            template: values,
-            success() {
-              Message.success('Updated success!');
-              form.restart(values);
-            },
-          })
-        );
-      } else {
-        dispatch(
-          template.actions.create({
-            template: values,
-            success(id, newTemplate) {
-              Message.success('Saved success!');
-              form.restart(newTemplate);
-              history.replace(`/editor?id=${id}`);
-            },
-          })
-        );
-      }
+      console.log(values, form);
     },
-    [dispatch, history, id]
+    [dispatch]
   );
 
   const onExportHtml = (values: IEmailTemplate) => {
@@ -221,7 +184,6 @@ export default function Editor() {
     <div>
       <style>{themeStyleText}</style>
       <EmailEditorProvider
-        key={id}
         height={'calc(100vh - 65px)'}
         data={initialValues}
         // interactiveStyle={{
@@ -245,21 +207,21 @@ export default function Editor() {
               <PageHeader
                 style={{ background: 'var(--color-bg-2)' }}
                 backIcon
-                title='Edit'
+                title="Edit"
                 onBack={() => history.push('/')}
                 extra={
-                  <Stack alignment='center'>
+                  <Stack alignment="center">
                     <Button
                       onClick={() => setIsDarkMode((v) => !v)}
-                      shape='circle'
-                      type='text'
+                      shape="circle"
+                      type="text"
                       icon={isDarkMode ? <IconMoonFill /> : <IconSunFill />}
                     ></Button>
 
                     <Select onChange={onChangeTheme} value={theme}>
-                      <Select.Option value='blue'>Blue</Select.Option>
-                      <Select.Option value='green'>Green</Select.Option>
-                      <Select.Option value='purple'>Purple</Select.Option>
+                      <Select.Option value="blue">Blue</Select.Option>
+                      <Select.Option value="green">Green</Select.Option>
+                      <Select.Option value="purple">Purple</Select.Option>
                     </Select>
 
                     <Button onClick={() => onExportHtml(values)}>
@@ -270,14 +232,14 @@ export default function Editor() {
                     </Button>
                     <Button
                       loading={isSubmitting}
-                      type='primary'
+                      type="primary"
                       onClick={() => submit()}
                     >
                       Save
                     </Button>
                     <a
-                      target='_blank'
-                      href='https://github.com/m-Ryan/easy-email'
+                      target="_blank"
+                      href="https://github.com/m-Ryan/easy-email"
                       style={{
                         color: '#000',
                         fontSize: 28,

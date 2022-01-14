@@ -1,9 +1,10 @@
 import { Input, Popover, PopoverProps, Space } from '@arco-design/web-react';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { ColorResult, SketchPicker } from 'react-color';
-import { Stack } from 'easy-email-editor';
+
 import { PresetColorsContext } from '../../AttributePanel/components/provider/PresetColorsProvider';
 import { getImg } from '@extensions/AttributePanel/utils/getImg';
+import colorPicker from '../../images/color-picker.png';
 
 export interface ColorPickerProps extends PopoverProps {
   onChange?: (val: string) => void;
@@ -47,16 +48,16 @@ export function ColorPicker(props: ColorPickerProps) {
     <div style={{ flex: 1, display: 'flex' }}>
       <Popover
         title={props.label}
-        trigger='click'
+        trigger="click"
         {...props}
-        content={(
+        content={
           <SketchPicker
             presetColors={presetColors}
             color={color}
             disableAlpha
             onChangeComplete={onChangeComplete}
           />
-        )}
+        }
       >
         {children || (
           <div
@@ -97,7 +98,7 @@ export function ColorPicker(props: ColorPickerProps) {
                   filter:
                     'invert(  0.78  )  drop-shadow(0 0px 0 rgb(0 0 0 / 45%))',
                 }}
-                src={getImg('AttributePanel_02')}
+                src={colorPicker}
               />
             )}
           </div>

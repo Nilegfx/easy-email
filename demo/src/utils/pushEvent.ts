@@ -5,12 +5,13 @@ export function pushEvent(params: {
   name: string;
   label?: string;
 }) {
-  (window as any)._czc &&
-    (window as any)._czc.push([
-      '_trackEvent',
-      params.page || 'common',
-      params.action || 'click',
-      params.name || '',
-      params.label || 1,
-    ]);
+  console.log('pushEvent called', params);
+  // (window as any)._czc &&
+  //   (window as any)._czc.push([
+  //     '_trackEvent',
+  //     params.page || 'common',
+  //     params.action || 'click',
+  //     params.name || '',
+  //     params.label || 1,
+  //   ]);
 }

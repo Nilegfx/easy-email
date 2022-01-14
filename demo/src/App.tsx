@@ -28,11 +28,6 @@ function App() {
                 justifyContent: 'center',
               }}
             >
-              <img
-                width='200px'
-                src='https://assets.maocanhua.cn/Fj1gmWbF-aY3ZnPyrTrDge6atRnm'
-                alt=''
-              />
               <p
                 style={{
                   fontSize: 24,
@@ -46,8 +41,8 @@ function App() {
         >
           <Router history={history}>
             <Switch>
-              <Route path='/' exact component={Home} />
-              <Route path='/editor' component={Editor} />
+              <Route path="/" exact component={Editor} />
+              {/* <Route path="/editor" component={Editor} /> */}
             </Switch>
           </Router>
         </Suspense>

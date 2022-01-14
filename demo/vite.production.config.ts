@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import styleImport from 'vite-plugin-style-import';
 import path from 'path';
-import { injectHtml } from 'vite-plugin-html';
 
 export default defineConfig({
   resolve: {
@@ -73,40 +72,6 @@ export default defineConfig({
             `@arco-design/web-react/icon/react-icon/${name}`,
         },
       ],
-    }),
-    injectHtml({
-      data: {
-        analysis:
-          process.env.NODE_ENV !== 'development'
-            ? `
-        <script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-          c[a] =
-            c[a] ||
-            function () {
-              (c[a].q = c[a].q || []).push(arguments);
-            };
-          t = l.createElement(r);
-          t.async = 1;
-          t.src = 'https://www.clarity.ms/tag/' + i;
-          y = l.getElementsByTagName(r)[0];
-          y.parentNode.insertBefore(t, y);
-        })(window, document, 'clarity', 'script', '85gnvzh5py');
-      </script>
-      <style>
-        a[title='站长统计'] {
-          visibility: hidden;
-          display: none !important;
-        }
-      </style>
-      <script
-        type="text/javascript"
-        src="https://s9.cnzz.com/z_stat.php?id=1280025969&web_id=1280025969"
-      ></script>
-
-        `
-            : '',
-      },
     }),
   ].filter(Boolean),
 });

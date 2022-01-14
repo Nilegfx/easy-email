@@ -15,7 +15,7 @@ export function AutoSaveAndRestoreEmail() {
   const [currentEmail, setCurrentEmail] =
     useLocalStorage<IEmailTemplate | null>(id, null);
   const dirty = getIsFormTouched(formState.touched as any);
-
+  console.log('dirty', dirty);
   const [visible, setVisible] = useState(Boolean(currentEmail));
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export function AutoSaveAndRestoreEmail() {
   const onRestore = () => {
     if (currentEmail) {
       reset(currentEmail);
-      setCurrentEmail(null);
+      // setCurrentEmail(null);
       setVisible(false);
       mutators.setFieldTouched(Object.keys(formState.touched || {})[0], true);
     }
@@ -45,17 +45,17 @@ export function AutoSaveAndRestoreEmail() {
   };
 
   const onBeforeConfirm = () => {
-    setCurrentEmail(null);
+    // setCurrentEmail(null);
   };
 
   return (
     <>
       <Modal
-        title='Restore email?'
+        title="Restore email?"
         visible={Boolean(visible && currentEmail)}
         onOk={onRestore}
-        okText='Restore'
-        cancelText='Discard'
+        okText="Restore"
+        cancelText="Discard"
         onCancel={onDiscard}
         style={{ zIndex: 10000 }}
       >

@@ -12,7 +12,6 @@ import {
   TreeProps,
 } from '@arco-design/web-react/es/Tree/interface';
 import { debounce } from 'lodash';
-import { transparentImage } from './transparentImage';
 
 interface TreeNode<T> {
   id: string;
@@ -48,11 +47,6 @@ export interface BlockTreeProps<T extends TreeNode<T>> {
     dropPosition: number;
   }) => void;
 }
-
-const img = new Image();
-img.width = 0;
-img.height = 0;
-img.src = transparentImage;
 
 const fileNames = {
   key: 'id',
@@ -107,7 +101,6 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
   const onDragStart = useCallback(
     (e: React.DragEvent<HTMLSpanElement>, node: NodeInstance) => {
       e.dataTransfer.dropEffect = 'none';
-      // e.dataTransfer.setDragImage(img, 0, 0);
       const dragNodeData = (node.props as any).dataRef as T;
       dragNode.current = {
         dataRef: dragNodeData,
@@ -216,7 +209,7 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
           expandedKeys={expandedKeys}
           onExpand={onExpand}
           draggable
-          size='small'
+          size="small"
           treeData={treeData}
           blockNode
           fieldNames={fileNames}
